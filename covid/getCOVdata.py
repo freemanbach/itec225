@@ -32,6 +32,8 @@ except ImportError as herr:
 from datetime import datetime
 import json
 import sys
+import math
+import random
 
 
 def fixdate(d):
@@ -101,7 +103,7 @@ def writeData( a, b, c, nf ):
     # heading for csv file to prep for plotly.JS
     # Date,VADATA.Death,VADATA.DeathConfirmed
     data = []
-    fn = nf.strip() + "data.csv" 
+    fn = nf.strip() + "file.csv" 
     for i in list(range(0, len(a))):
         m = str(a[i]).strip() + "," + str(b[i]).strip() + "," + str(c[i]).strip() + "\n"
         data.append(m)
@@ -116,15 +118,13 @@ def writeData( a, b, c, nf ):
 
 def main():
     network = 0
-    # Forbidden Magik
     try:
-        r = requests.get('https://www.google.com', timeout=4)
+        r = requests.get('https://www.duckduckgo.com', timeout=4)
         network = 1
     except (requests.ConnectionError, requests.Timeout):
         network = 0
 
     if network == 1:
-        # VOODOO Magik
         if len(sys.argv) == 2:
             xz = sys.argv
             if str(xz[1]).strip().lower() == 'all':
@@ -137,8 +137,9 @@ def main():
             print("not enough parameters.")
             sys.exit()
     else:
-        print("No internet Access, Apparently.")
-        sys.exit()
+        print("No internet Access")
+        print("there is nothing available")
+        sys.exit(1)
 
 
 if __name__ == "__main__":
