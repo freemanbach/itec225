@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Code Test</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- FAVICON -->
+</head>
+<body onload="focus();">    
+			<script type="text/javascript">
+			function focus(){
+				document.getElementById("prin").focus();
+			}
+
+			function computePrincipal() {
+				// c = sqrt (a^2 + b^2)
+				var p = parseFloat(document.getElementById("prin").value.toString().trim());
+				var r = .045;
+				var t = 30.0/365; // compound interests 30 days
+				var interest =  p*r*t;
+				document.getElementById('showme').innerHTML = interest.toString() + " US Dollars.";
+			}
+
+			function computeVelocity() {
+				var g = parseFloat(document.getElementById("gravity").value.toString().trim());
+				var t = parseFloat(document.getElementById("time").value.toString().trim());
+				var v = g * t;
+				document.getElementById('showme').innerHTML = v.toString() + " m/s. ";
+			}
+			function clearFields() {
+				document.getElementById("prin").value = "";
+				document.getElementById("gravity").value = "";
+				document.getElementById("time").value = "";
+				focus();
+			}
+			</script>
+
+ <div>
+        <form action="#">
+            <fieldset>
+                <legend>Do something</legend>
+		  <label> Principal Amount: </label><br>
+		  <input type="text" id="prin" name="prin"><br>
+		  <br><br>
+
+		    <label>Gravity:</label><br>
+		    <input type="text" id="gravity" name="gravity"><br>
+			<br>
+		    <label>Time:</label><br>
+		    <input type="text" id="time" name="time"><br>
+
+                <button type="button" onclick="computePrincipal();"> Compute Principal</button>
+				<button type="button" onclick="computeVelocity();"> Compute Velocity</button>
+				<button type="button" onclick="clearFields();">Clear Fields</button>
+            </fieldset>
+        </form>
+ </div>
+
+
+	<!-- ONLY when its Necessary -->
+	<!-- <script src="example.js"></script> -->
+	<p id="showme"></p>
+</body>
+</html>
