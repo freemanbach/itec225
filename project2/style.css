@@ -1,0 +1,96 @@
+/*  insert google font API  */
+
+@import url("");
+
+html {
+  box-sizing: ;
+}
+
+/*  Insert your custom Body CSS styles for your own webpage */
+body {
+  margin: ;
+  min-height: ;
+  background-color: ;
+  background-image: url("");
+  color: ;
+  font-family: , ;
+  font-weight: ;
+  text-align: ;
+  display: ;
+  align-items: ;
+  justify-content: ;
+}
+
+.quote-container {
+  width: auto;
+  max-width: 900px;
+  padding: 20px 30px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Insert quote text size */
+
+.quote-text {
+  font-size: ;
+}
+
+.long-quote {
+  font-size: ;
+}
+
+.fa-quote-left {
+  font-size: ;
+}
+
+.quote-author {
+  margin-top: ;
+  font-size: ;
+  font-weight: ;
+  font-style: ;
+}
+
+.button-container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  cursor: pointer;
+  font-size: 1.2rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  background-color: #333;
+  outline: none;
+  padding: 0.5rem 1.8rem 0.5rem 1.8rem;
+}
+
+/* change Loader width and height in px */
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #333;
+  border-radius: 50%;
+  width: ;
+  height: ;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Media Query: Tablet or Smaller */
+@media screen and (max-width: 1000px) {
+  .quote-container {
+    margin: auto 10px;
+  }
+
+  .quote-text {
+    font-size: 2.5rem;
+  }
+}
