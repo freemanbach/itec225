@@ -1,7 +1,4 @@
 
-// https://www.radford.edu/~cbradley22//morse_code/morsecode.HTML
-// https://www.radford.edu/~cbradley22/password_generator/password.html
-
 // https://github.com/Rob--W/cors-anywhere/issues/301
 // https://cors-anywhere.herokuapp.com/corsdemo
 function focus() {
