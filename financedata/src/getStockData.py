@@ -1,0 +1,181 @@
+
+#!/bin/env python3
+
+# Author  : freeman
+# Date    : 2021.03.07
+# Desc    :
+#         : 
+# Version : 0.0.1
+###################################################################
+
+
+from datetime import datetime, timedelta
+import warnings
+import re
+import json
+import sys
+import os.path
+from os import path
+import socket
+
+__NDAYS_AGO__ = 366
+
+try:
+    from requests.exceptions import HTTPError
+    import requests
+except ImportError as herr:
+    print("Missing requests library")
+    print("pip install --user requests")
+
+
+try:
+    import urllib3
+except ImportError as err:
+    warnings.warn('No Package named urllib3 was found. ', ImportWarning)
+    print(err.__class__.__name__ + " : " + err.__cause__)
+    sys.exit(1)
+
+
+def testConn():
+    try:
+        socket.create_connection(("www.google.com", 80))
+        return True
+    except OSError as err:
+        print("No Connection: " + err.errno)
+    return False
+
+
+def computeDate():
+    # Sublimate the Date Magic
+    date_list = []
+    a = datetime.now()
+    b = a - timedelta(days=__NDAYS_AGO__)
+    today_date = str(str(a).split(' ')[0])
+    days_ago = str(str(b).split(' ')[0])
+    date_list.append(today_date)
+    date_list.append(days_ago)
+    return date_list
+
+
+# default:  https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2020-03-01&to=2021-03-01&apikey=demo
+def retrieveStockTickerInfo(t, s, e):
+    KEY = "YOUR_MODELING_PREDICTION_SITE_KEY"
+    if KEY == "YOUR_MODELING_PREDICTION_SITE_KEY":
+        print("You will need to setup and obtain an account before using this software")
+        sys.exit(2)
+    else:
+        pass
+
+    url = "https://financialmodelingprep.com/api/v3/historical-price-full/" + t.upper() + "?from=" + s + "&to=" + e + "&apikey=" + KEY
+
+    try:
+        r = requests.get(url=url)
+        r.encoding = 'ISO-8859-1'
+        r.raise_for_status()
+        data = r.json()
+    except HTTPError as err:
+        print("Http Connection Error", err.response)
+        sys.exit()
+
+    with open('data.json', 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4, sort_keys=True)
+
+def processFields():
+    ds, tds, sopen, sclose, shigh = {}, [], {}, {}, {}
+    tmp1, tmp2 = "", ""
+
+    with open('data.json', 'r') as f:
+        ds = json.load(f)
+
+    # date:open, high, close, low
+    tds = ds['historical']
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "open":
+                tmp2 = v
+            sopen.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "close":
+                tmp2 = v
+            sclose.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "high":
+                tmp2 = v
+            shigh.update({tmp1:tmp2})
+
+    return sopen, sclose, shigh
+
+
+def writeToDisk(t, so, sc, sh):
+    fname1 = t + "_open_data.csv"
+    fname2 = t + "_close_data.csv"
+    fname3 = t + "_high_data.csv"
+    tmp = ""
+    with open(fname1, "w", encoding='utf-8' ) as f: 
+        for k, v in so.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname2, "w", encoding='utf-8' ) as f: 
+        for k, v in sc.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname3, "w", encoding='utf-8' ) as f: 
+        for k, v in sh.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+
+
+def main():
+
+    ticker, start_date, end_date = "", "", ""
+
+    ticker = input("Enter in a stock Ticker >> ").strip()
+    start_date = input("Enter in a Start date in form yyyy-mm-dd or blank >> ").strip()
+    end_date =   input("Enter in a End date in form yyyy-mm-dd or blank   >> ").strip()
+
+    # man, parsing JSON data is giving me major heart burn
+    # brain wasnt functional when i wanted to work on this part below
+    if testConn() == True:
+        if ticker.isspace() or ticker == "" or ticker == None:
+            print("Ticker Field is Blank, where it must have a single Stock value !")
+            sys.exit(1)
+        if ( start_date.isspace() or start_date == "" or start_date == None ) and ( end_date.isspace() or end_date == "" or end_date == None ):
+            start_date = str(computeDate()[0]).strip()
+            end_date = str(computeDate()[1]).strip()
+            retrieveStockTickerInfo(ticker, end_date, start_date)
+            a,b,c = processFields()
+            writeToDisk(ticker, a,b,c)
+        elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) or ( end_date.isspace() or end_date == "" or end_date == None ):
+            end_date = str(computeDate()[1]).strip()
+            retrieveStockTickerInfo(ticker, end_date, start_date)
+            a,b,c = processFields()
+            writeToDisk(ticker, a,b,c)
+        elif ( start_date.isspace() or start_date == "" or start_date == None ) or ( not end_date.isspace() or  not end_date == "" or not end_date == None ):
+            start_date = str(computeDate()[0]).strip()
+            retrieveStockTickerInfo(ticker, end_date, start_date)
+            a,b,c = processFields()
+            writeToDisk(ticker, a,b,c)
+        elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) and ( not end_date.isspace() or not end_date == "" or not end_date == None):
+            retrieveStockTickerInfo(ticker, start_date, end_date)
+            a,b,c = processFields()
+            writeToDisk(ticker, a,b,c)
+        else:
+            print("idk")
+            sys.exit(1)
+    else:
+        print("No Internet Connection, apparently.")
+
+
+if __name__ == "__main__":
+    main()
