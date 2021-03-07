@@ -1,6 +1,5 @@
 
 #!/bin/env python3
-
 # Author  : freeman
 # Date    : 2021.03.07
 # Desc    :
@@ -11,7 +10,6 @@
 
 from datetime import datetime, timedelta
 import warnings
-import re
 import json
 import sys
 import os.path
@@ -94,21 +92,21 @@ def processFields():
             if str(k).strip().lower() == "date":
                 tmp1 = v
             if str(k).strip().lower() == "open":
-                tmp2 = v
+                tmp2 = "{:.2f}".format(v)
             sopen.update({tmp1:tmp2})
     for i in tds:
         for k, v in i.items():
             if str(k).strip().lower() == "date":
                 tmp1 = v
             if str(k).strip().lower() == "close":
-                tmp2 = v
+                tmp2 = "{:.2f}".format(v)
             sclose.update({tmp1:tmp2})
     for i in tds:
         for k, v in i.items():
             if str(k).strip().lower() == "date":
                 tmp1 = v
             if str(k).strip().lower() == "high":
-                tmp2 = v
+                tmp2 = "{:.2f}".format(v)
             shigh.update({tmp1:tmp2})
 
     return sopen, sclose, shigh
