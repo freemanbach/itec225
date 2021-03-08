@@ -79,7 +79,7 @@ def retrieveStockTickerInfo(t, s, e):
         json.dump(data, f, indent=4, sort_keys=True)
 
 def processFields():
-    ds, tds, sopen, sclose, shigh = {}, [], {}, {}, {}
+    ds, tds, sopen, sclose, shigh, slow = {}, [], {}, {}, {}, {}
     tmp1, tmp2 = "", ""
 
     with open('data.json', 'r') as f:
@@ -108,14 +108,22 @@ def processFields():
             if str(k).strip().lower() == "high":
                 tmp2 = "{:.2f}".format(v)
             shigh.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "low":
+                tmp2 = "{:.2f}".format(v)
+            slow.update({tmp1:tmp2})
 
-    return sopen, sclose, shigh
+    return sopen, sclose, shigh, slow
 
 
-def writeToDisk(t, so, sc, sh):
+def writeToDisk(t, so, sc, sh, sl):
     fname1 = t + "_open_data.csv"
     fname2 = t + "_close_data.csv"
     fname3 = t + "_high_data.csv"
+    fname4 = t + "_low_data.csv"
     tmp = ""
     with open(fname1, "w", encoding='utf-8' ) as f: 
         for k, v in so.items():
@@ -129,6 +137,11 @@ def writeToDisk(t, so, sc, sh):
             tmp = ""
     with open(fname3, "w", encoding='utf-8' ) as f: 
         for k, v in sh.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname4, "w", encoding='utf-8' ) as f: 
+        for k, v in sl.items():
             tmp = str(k)+','+str(v)+"\n"
             f.write(tmp)
             tmp = ""
@@ -152,22 +165,22 @@ def main():
             start_date = str(computeDate()[0]).strip()
             end_date = str(computeDate()[1]).strip()
             retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c = processFields()
-            writeToDisk(ticker, a,b,c)
+            a,b,c,d = processFields()
+            writeToDisk(ticker, a,b,c, d)
         elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) or ( end_date.isspace() or end_date == "" or end_date == None ):
             end_date = str(computeDate()[1]).strip()
             retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c = processFields()
-            writeToDisk(ticker, a,b,c)
+            a,b,c,d = processFields()
+            writeToDisk(ticker, a,b,c,d)
         elif ( start_date.isspace() or start_date == "" or start_date == None ) or ( not end_date.isspace() or  not end_date == "" or not end_date == None ):
             start_date = str(computeDate()[0]).strip()
             retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c = processFields()
-            writeToDisk(ticker, a,b,c)
+            a,b,c,d = processFields()
+            writeToDisk(ticker, a,b,c,d)
         elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) and ( not end_date.isspace() or not end_date == "" or not end_date == None):
             retrieveStockTickerInfo(ticker, start_date, end_date)
-            a,b,c = processFields()
-            writeToDisk(ticker, a,b,c)
+            a,b,c,d = processFields()
+            writeToDisk(ticker, a,b,c,d)
         else:
             print("idk")
             sys.exit(1)
