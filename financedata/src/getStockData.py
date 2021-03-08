@@ -15,6 +15,7 @@ import sys
 import os.path
 from os import path
 import socket
+import collections
 
 __NDAYS_AGO__ = 366
 
@@ -115,6 +116,11 @@ def processFields():
             if str(k).strip().lower() == "low":
                 tmp2 = "{:.2f}".format(v)
             slow.update({tmp1:tmp2})
+    
+    # Apparently, one OPEN key:value is blank
+    ek = [k for k, v in sopen.items() if not v]
+    for k in ek:
+        del sopen[k]
 
     return sopen, sclose, shigh, slow
 

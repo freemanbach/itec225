@@ -1,6 +1,21 @@
 {
     "historical": [
         {
+            "adjClose": 2024.170044,
+            "change": -76.95984,
+            "changeOverTime": -0.03663,
+            "changePercent": -3.663,
+            "close": 2024.170044,
+            "date": "2021-03-08",
+            "high": 2128.800049,
+            "label": "March 08, 21",
+            "low": 2021.609985,
+            "open": 2101.129883,
+            "unadjustedVolume": 1605195.0,
+            "volume": 1605195.0,
+            "vwap": 2058.19336
+        },
+        {
             "adjClose": 2108.540039,
             "change": 35.41992,
             "changeOverTime": 0.01709,
@@ -3764,21 +3779,6 @@
             "unadjustedVolume": 3365400.0,
             "volume": 3365400.0,
             "vwap": 1223.44003
-        },
-        {
-            "adjClose": 1298.41,
-            "change": 21.3499,
-            "changeOverTime": 0.01672,
-            "changePercent": 1.672,
-            "close": 1298.41,
-            "date": "2020-03-06",
-            "high": 1306.22,
-            "label": "March 06, 20",
-            "low": 1261.05,
-            "open": 1277.0601,
-            "unadjustedVolume": 2660600.0,
-            "volume": 2660600.0,
-            "vwap": 1288.56
         }
     ],
     "symbol": "GOOG"
