@@ -82,6 +82,7 @@ def retrieveStockTickerInfo(t, s, e):
 def processFields():
     ds, tds, sopen, sclose, shigh, slow = {}, [], {}, {}, {}, {}
     tmp1, tmp2 = "", ""
+    so, sc, sh, sl = {}, {}, {}, {}
 
     with open('data.json', 'r') as f:
         ds = json.load(f)
@@ -122,7 +123,24 @@ def processFields():
     for k in ek:
         del sopen[k]
 
-    return sopen, sclose, shigh, slow
+    # sorting
+    tmp = sorted(sopen,reverse=True)
+    for k in tmp:
+        so.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(sclose,reverse=True)
+    for k in tmp:
+        sc.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(shigh,reverse=True)
+    for k in tmp:
+        sh.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(slow,reverse=True)
+    for k in tmp:
+        sl.update({k:sopen[k]})
+
+    return so, sc, sh, sl
 
 
 def writeToDisk(t, so, sc, sh, sl):
