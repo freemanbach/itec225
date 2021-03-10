@@ -79,6 +79,7 @@ def retrieveStockTickerInfo(t, s, e):
     with open('data.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, sort_keys=True)
 
+
 def processFields():
     ds, tds, sopen, sclose, shigh, slow = {}, [], {}, {}, {}, {}
     tmp1, tmp2 = "", ""
@@ -140,15 +141,130 @@ def processFields():
     for k in tmp:
         sl.update({k:sopen[k]})
 
+    # Most recent on top with title
+    x1 = {"date":"open"}
+    x2 = {"date":"close"}
+    x3 = {"date":"high"}
+    x4 = {"date":"low"}
+    so = {**x1, **so}
+    sc = {**x2, **sc}
+    sh = {**x3, **sh}
+    sl = {**x4, **sl}
+
+    return so, sc, sh, sl
+
+
+def processFieldsRev():
+    ds, tds, sopen, sclose, shigh, slow = {}, [], {}, {}, {}, {}
+    tmp1, tmp2 = "", ""
+    so, sc, sh, sl = {}, {}, {}, {}
+
+    with open('data.json', 'r') as f:
+        ds = json.load(f)
+
+    # date:open, high, close, low
+    tds = ds['historical']
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "open":
+                tmp2 = "{:.2f}".format(v)
+            sopen.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "close":
+                tmp2 = "{:.2f}".format(v)
+            sclose.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "high":
+                tmp2 = "{:.2f}".format(v)
+            shigh.update({tmp1:tmp2})
+    for i in tds:
+        for k, v in i.items():
+            if str(k).strip().lower() == "date":
+                tmp1 = v
+            if str(k).strip().lower() == "low":
+                tmp2 = "{:.2f}".format(v)
+            slow.update({tmp1:tmp2})
+    
+    # Apparently, one OPEN key:value is blank
+    ek = [k for k, v in sopen.items() if not v]
+    for k in ek:
+        del sopen[k]
+
+    # sorting
+    tmp = sorted(sopen)
+    for k in tmp:
+        so.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(sclose)
+    for k in tmp:
+        sc.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(shigh)
+    for k in tmp:
+        sh.update({k:sopen[k]})
+    # sorting
+    tmp = sorted(slow)
+    for k in tmp:
+        sl.update({k:sopen[k]})
+
+    # Most recent on bottom  with title
+    x1 = {"date":"open"}
+    x2 = {"date":"close"}
+    x3 = {"date":"high"}
+    x4 = {"date":"low"}
+    so = {**x1, **so}
+    sc = {**x2, **sc}
+    sh = {**x3, **sh}
+    sl = {**x4, **sl}
+
     return so, sc, sh, sl
 
 
 def writeToDisk(t, so, sc, sh, sl):
+
     fname1 = t + "_open_data.csv"
     fname2 = t + "_close_data.csv"
     fname3 = t + "_high_data.csv"
     fname4 = t + "_low_data.csv"
     tmp = ""
+    with open(fname1, "w", encoding='utf-8' ) as f: 
+        for k, v in so.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname2, "w", encoding='utf-8' ) as f: 
+        for k, v in sc.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname3, "w", encoding='utf-8' ) as f: 
+        for k, v in sh.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+    with open(fname4, "w", encoding='utf-8' ) as f: 
+        for k, v in sl.items():
+            tmp = str(k)+','+str(v)+"\n"
+            f.write(tmp)
+            tmp = ""
+
+
+def writeToDiskRev(t, so, sc, sh, sl):    
+
+    fname1 = t + "_open_rev_data_rev.csv"
+    fname2 = t + "_close_rev_data_rev.csv"
+    fname3 = t + "_high_rev_data_rev.csv"
+    fname4 = t + "_low_data_rev.csv"
+    tmp = ""
+
     with open(fname1, "w", encoding='utf-8' ) as f: 
         for k, v in so.items():
             tmp = str(k)+','+str(v)+"\n"
@@ -191,20 +307,28 @@ def main():
             retrieveStockTickerInfo(ticker, end_date, start_date)
             a,b,c,d = processFields()
             writeToDisk(ticker, a,b,c, d)
+            a,b,c,d = processFieldsRev()
+            writeToDiskRev(ticker, a,b,c,d)
         elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) or ( end_date.isspace() or end_date == "" or end_date == None ):
             end_date = str(computeDate()[1]).strip()
             retrieveStockTickerInfo(ticker, end_date, start_date)
             a,b,c,d = processFields()
             writeToDisk(ticker, a,b,c,d)
+            a,b,c,d = processFieldsRev()
+            writeToDiskRev(ticker, a,b,c,d)
         elif ( start_date.isspace() or start_date == "" or start_date == None ) or ( not end_date.isspace() or  not end_date == "" or not end_date == None ):
             start_date = str(computeDate()[0]).strip()
             retrieveStockTickerInfo(ticker, end_date, start_date)
             a,b,c,d = processFields()
             writeToDisk(ticker, a,b,c,d)
+            a,b,c,d = processFieldsRev()
+            writeToDiskRev(ticker, a,b,c,d)
         elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) and ( not end_date.isspace() or not end_date == "" or not end_date == None):
             retrieveStockTickerInfo(ticker, start_date, end_date)
             a,b,c,d = processFields()
             writeToDisk(ticker, a,b,c,d)
+            a,b,c,d = processFieldsRev()
+            writeToDiskRev(ticker, a,b,c,d)
         else:
             print("idk")
             sys.exit(1)
