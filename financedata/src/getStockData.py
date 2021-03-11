@@ -259,9 +259,9 @@ def writeToDisk(t, so, sc, sh, sl):
 
 def writeToDiskRev(t, so, sc, sh, sl):    
 
-    fname1 = t + "_open_rev_data_rev.csv"
-    fname2 = t + "_close_rev_data_rev.csv"
-    fname3 = t + "_high_rev_data_rev.csv"
+    fname1 = t + "_open_data_rev.csv"
+    fname2 = t + "_close_data_rev.csv"
+    fname3 = t + "_high_data_rev.csv"
     fname4 = t + "_low_data_rev.csv"
     tmp = ""
 
