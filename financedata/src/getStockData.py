@@ -58,7 +58,7 @@ def computeDate():
 
 # default:  https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2020-03-01&to=2021-03-01&apikey=demo
 def retrieveStockTickerInfo(t, s, e):
-    KEY = "YOUR_MODELING_PREDICTION_SITE_KEY"
+    KEY = "c224ccd7e8f024982196260bc1f89fbd"
     if KEY == "YOUR_MODELING_PREDICTION_SITE_KEY":
         print("You will need to setup and obtain an account before using this software")
         sys.exit(2)
@@ -301,37 +301,24 @@ def main():
         if ticker.isspace() or ticker == "" or ticker == None:
             print("Ticker Field is Blank, where it must have a single Stock value !")
             sys.exit(1)
-        if ( start_date.isspace() or start_date == "" or start_date == None ) and ( end_date.isspace() or end_date == "" or end_date == None ):
-            start_date = str(computeDate()[0]).strip()
-            end_date = str(computeDate()[1]).strip()
-            retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c,d = processFields()
-            writeToDisk(ticker, a,b,c, d)
-            a,b,c,d = processFieldsRev()
-            writeToDiskRev(ticker, a,b,c,d)
-        elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) or ( end_date.isspace() or end_date == "" or end_date == None ):
-            end_date = str(computeDate()[1]).strip()
-            retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c,d = processFields()
-            writeToDisk(ticker, a,b,c,d)
-            a,b,c,d = processFieldsRev()
-            writeToDiskRev(ticker, a,b,c,d)
-        elif ( start_date.isspace() or start_date == "" or start_date == None ) or ( not end_date.isspace() or  not end_date == "" or not end_date == None ):
-            start_date = str(computeDate()[0]).strip()
-            retrieveStockTickerInfo(ticker, end_date, start_date)
-            a,b,c,d = processFields()
-            writeToDisk(ticker, a,b,c,d)
-            a,b,c,d = processFieldsRev()
-            writeToDiskRev(ticker, a,b,c,d)
-        elif ( not start_date.isspace() or not start_date == "" or not start_date == None ) and ( not end_date.isspace() or not end_date == "" or not end_date == None):
-            retrieveStockTickerInfo(ticker, start_date, end_date)
-            a,b,c,d = processFields()
-            writeToDisk(ticker, a,b,c,d)
-            a,b,c,d = processFieldsRev()
-            writeToDiskRev(ticker, a,b,c,d)
         else:
-            print("idk")
-            sys.exit(1)
+            if ( start_date.isspace() or start_date == "" or start_date == None ) and ( end_date.isspace() or end_date == "" or end_date == None ):
+                start_date = str(computeDate()[0]).strip()
+                end_date = str(computeDate()[1]).strip()
+                retrieveStockTickerInfo(ticker, end_date, start_date)
+                a,b,c,d = processFields()
+                writeToDisk(ticker, a,b,c, d)
+                a,b,c,d = processFieldsRev()
+                writeToDiskRev(ticker, a,b,c,d)
+            elif ( not start_date.isspace() or not start_date == "" or not start_date == None) and  ( not end_date.isspace() or not end_date == "" or not end_date == None):
+                retrieveStockTickerInfo(ticker, start_date, end_date)
+                a,b,c,d = processFields()
+                writeToDisk(ticker, a,b,c, d)
+                a,b,c,d = processFieldsRev()
+                writeToDiskRev(ticker, a,b,c,d)
+            else:
+                print("idk")
+                sys.exit(1)
     else:
         print("No Internet Connection, apparently.")
 
