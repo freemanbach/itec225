@@ -1,19 +1,34 @@
 {
     "historical": [
         {
+            "adjClose": 2114.77002,
+            "change": 40.70996,
+            "changeOverTime": 0.01963,
+            "changePercent": 1.963,
+            "close": 2114.77002,
+            "date": "2021-03-11",
+            "high": 2125.484863,
+            "label": "March 11, 21",
+            "low": 2072.379883,
+            "open": 2074.060059,
+            "unadjustedVolume": 1208604.0,
+            "volume": 1208604.0,
+            "vwap": 2104.21159
+        },
+        {
             "adjClose": 2055.030029,
             "change": -16.72998,
             "changeOverTime": -0.00808,
             "changePercent": -0.808,
             "close": 2055.030029,
             "date": "2021-03-10",
-            "high": 2073.699951,
+            "high": 2075.0,
             "label": "March 10, 21",
             "low": 2033.369995,
             "open": 2071.76001,
-            "unadjustedVolume": 1237619.0,
-            "volume": 1237619.0,
-            "vwap": 2054.03333
+            "unadjustedVolume": 1267800.0,
+            "volume": 1267800.0,
+            "vwap": 2054.46667
         },
         {
             "adjClose": 2052.699951,
@@ -26,8 +41,8 @@
             "label": "March 09, 21",
             "low": 2047.829956,
             "open": 2070.0,
-            "unadjustedVolume": 1696400.0,
-            "volume": 1696400.0,
+            "unadjustedVolume": 1697300.0,
+            "volume": 1697300.0,
             "vwap": 2059.52332
         },
         {
@@ -3794,21 +3809,6 @@
             "unadjustedVolume": 2611400.0,
             "volume": 2611400.0,
             "vwap": 1260.10333
-        },
-        {
-            "adjClose": 1215.5601,
-            "change": 10.2601,
-            "changeOverTime": 0.00851,
-            "changePercent": 0.851,
-            "close": 1215.5601,
-            "date": "2020-03-09",
-            "high": 1254.76,
-            "label": "March 09, 20",
-            "low": 1200.0,
-            "open": 1205.3,
-            "unadjustedVolume": 3365400.0,
-            "volume": 3365400.0,
-            "vwap": 1223.44003
         }
     ],
     "symbol": "GOOG"
