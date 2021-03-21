@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Binary Converters</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- FAVICON -->
+</head>
+<body onload="focus();"> 
+
+ <script type="text/javascript">
+
+ function clear() {
+	 document.getElementById("d2b").value="";
+	 document.getElementById("b2d").value="";
+	 focus();
+ }
+
+ function focus() {
+	 document.getElementById('d2b').focus();
+ }
+
+ // Binary to Decimal in JS
+ function b2d() {
+	 var sum = 0,
+	     tmp = 0,
+	     b = 1;
+     // var ui = Array.from(document.getElementById('b2d').value.toString());
+	 var ui = document.getElementById('b2d').value.toString();
+	 if (!isNaN(ui)) {
+		 ui = Array.from(ui);
+		 for (let a=0; a < ui.length; a++) {
+			 sum += parseInt(ui[a]) * Math.pow(2, ui.length - b);
+			 b+=1;
+			}
+		document.getElementById('display1').innerHTML = "Your Decimal value is: " + "&nbsp;&nbsp;&nbsp;&nbsp;" + sum.toString();
+	 } else {
+		 alert("not number.");
+	 }
+ }
+
+ // Decimal to Binary in JS
+ function d2b() {
+	 var v = Array(), b = 0, r = 0, m = "";
+	 // var a = parseInt(document.getElementById('d2b').value);
+	 var a = document.getElementById('d2b').value;
+	 
+	 if ( !isNaN(a)) {
+		 a = parseInt(a);
+		 while (a >= 1) {
+			 b = a / 2;
+			 r = Math.floor(a % 2);
+			 // v.push(r.toString());
+			 m+=r.toString();
+			 a = b;
+		}
+		// v.reverse();
+		m = m.split("").reverse().join("");
+		document.getElementById('display2').innerHTML = "Your Binary value is: " + "&nbsp;&nbsp;&nbsp;&nbsp;" + m;
+
+	} else {
+		alert("Not a number.")
+	}
+ }
+  </script> 
+	
+	<label>decimal to binary: </label>
+	<input type="text" id="d2b" name="d2b">
+    <br><br>
+
+	<label>binary to decimal: </label>
+	<input type="text" id="b2d" name="b2d">
+    <br><br>
+	<button type="button" onclick="b2d();">b2d</button>
+	<button type="button" onclick="d2b();">d2b</button>
+	<button type="button" onclick="clear();">clear</button>
+	<p id="display1"></p>
+	<p id="display2"></p>
+		<!-- ONLY when its Necessary -->
+		<!-- <script src="b2b.js" type="text/javascript"></script> -->
+</body>
+</html>
