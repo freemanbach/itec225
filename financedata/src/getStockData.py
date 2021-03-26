@@ -1,9 +1,12 @@
 
 #!/bin/env python3
 # Author  : freeman
-# Date    : 2021.03.07
-# Desc    :
+# Date    : 2021.03.25
+# Desc    : This software will export by default the past year STOCK price {high, low, open, close} 
+#         : Financialmodelingprep doesnt have all the Class-C mutual fund types.
+#         : yet, it is the only site with API listngs of Cryptocurrencies.
 #         : 
+# use     : python3 getStockData.py
 # Version : 0.0.1
 ###################################################################
 
