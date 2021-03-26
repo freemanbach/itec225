@@ -18,7 +18,6 @@ import sys
 import os.path
 from os import path
 import socket
-import collections
 
 __NDAYS_AGO__ = 366
 
@@ -61,7 +60,7 @@ def computeDate():
 
 # default:  https://financialmodelingprep.com/api/v3/historical-price-full/AAPL?from=2020-03-01&to=2021-03-01&apikey=demo
 def retrieveStockTickerInfo(t, s, e):
-    KEY = "c224ccd7e8f024982196260bc1f89fbd"
+    KEY = "YOUR_MODELING_PREDICTION_SITE_KEY"
     if KEY == "YOUR_MODELING_PREDICTION_SITE_KEY":
         print("You will need to setup and obtain an account before using this software")
         sys.exit(2)
